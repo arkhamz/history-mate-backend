@@ -8,6 +8,8 @@ import {
   timestamp,
   primaryKey,
   uuid,
+  boolean,
+  doublePrecision,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -26,17 +28,23 @@ export const battlesTable = pgTable('battles', {
   description: text('description').notNull(),
   image_url: text('image_url').notNull(),
   video_url: text('video_url').notNull(),
-  date: date().notNull(),
-  latitude: integer().notNull(),
-  longitude: integer().notNull(),
+  date: date(),
+  latitude: doublePrecision().notNull(),
+  longitude: doublePrecision().notNull(),
   army_one: jsonb().notNull(),
   army_two: jsonb().notNull(),
   result: text('result').notNull(),
-  questions: text('questions').notNull(),
+  start_date: date(),
+  end_date: date(),
 });
 
-//JUNCTION/JOIN TABLE
-//connects many users to many battles with extra progress and status
+//JUNCTION/JOIN TABLE - used to handle many-to-many relationships between 2 other tables
+//it breaks the many to many relationship into two one-to-many relationships
+//each row in the junction table links one user to one battle
+// a user can be connected to many battles via usersToBattles junction table,
+//and a battle connected to many users via usersToBattles
+
+//*Define the foreign key constraints at the database level
 export const usersToBattles = pgTable(
   'users_to_battles',
   {
@@ -52,18 +60,26 @@ export const usersToBattles = pgTable(
   (t) => [primaryKey({ columns: [t.userId, t.battleId] })],
 );
 
-//foreign key relations
+//!relations() defines logical relationship, not column names
 
-//a user can be connected to many battles via usersToBattles junction table
+// Define users table relation
+//associated with usersToBattles table and this is a many association
 export const usersRelations = relations(usersTable, ({ many }) => ({
   usersToBattles: many(usersToBattles),
 }));
-//a battle can be connected to many users via usersToBattles junction table
+
+//define battle relation
+//is associated with usersToBattles, many association
+//is associated with questions table, many association
+
 export const battlesRelations = relations(battlesTable, ({ many }) => ({
   usersToBattles: many(usersToBattles),
+  questions: many(questionsTable),
 }));
 
-//defines that each userS_to_battles junction table row belongs to one user and one battle
+//defines that usersToBattlesRelations table is associated with user and battle in a one /singular relationship
+//Each row in users_to_battles belongs to one user, and one battle
+//* define the relationship logic at the DRIZZLE ORM logic
 export const usersToBattlesRelations = relations(usersToBattles, ({ one }) => ({
   user: one(usersTable, {
     fields: [usersToBattles.userId],
@@ -74,15 +90,6 @@ export const usersToBattlesRelations = relations(usersToBattles, ({ one }) => ({
     references: [battlesTable.id],
   }),
 }));
-
-// export const userProgressTable = pgTable('user_progress', {
-//   id: uuid().primaryKey(),
-//   created_at: timestamp(),
-//   user_id: uuid().notNull(),
-//   battle_id: uuid().notNull(),
-//   progress: integer(),
-//   status: text('status'),
-// });
 
 export const commandersTable = pgTable('commanders', {
   id: uuid().primaryKey().defaultRandom().notNull(),
@@ -97,3 +104,40 @@ export const commandersTable = pgTable('commanders', {
   birth_location: text('birth_location').notNull(),
   bio: text('bio').notNull(),
 });
+
+export const questionsTable = pgTable('questions', {
+  id: uuid().primaryKey().defaultRandom().notNull(),
+  battle_id: uuid()
+    .notNull()
+    .references(() => battlesTable.id),
+  text: text('text'),
+  created_at: date().notNull().defaultNow(),
+});
+
+export const questionsRelations = relations(questionsTable, ({ one }) => ({
+  battle: one(battlesTable, {
+    fields: [questionsTable.battle_id],
+    references: [battlesTable.id],
+  }),
+}));
+
+export const questionAnswersTable = pgTable('question_answers', {
+  id: uuid().primaryKey().defaultRandom().notNull(),
+  created_at: date().notNull().defaultNow(),
+  answer_text: text('answer_text'),
+  title: text('title').notNull(),
+  question_id: uuid()
+    .notNull()
+    .references(() => questionsTable.id),
+  is_correct: boolean().notNull().default(false),
+});
+
+export const questionAnswersRelations = relations(
+  questionAnswersTable,
+  ({ one }) => ({
+    question: one(questionsTable, {
+      fields: [questionAnswersTable.question_id],
+      references: [questionsTable.id],
+    }),
+  }),
+);
