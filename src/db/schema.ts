@@ -1,3 +1,4 @@
+//DEFINE TABLES AND COLUMNS
 import {
   date,
   integer,
@@ -11,15 +12,15 @@ import {
 import { relations } from 'drizzle-orm';
 
 export const usersTable = pgTable('users', {
-  id: uuid().primaryKey(),
-  created_at: timestamp(),
+  id: uuid().primaryKey().defaultRandom().notNull(),
+  created_at: date().notNull().defaultNow(),
   display_name: text('display_name').notNull(),
   email: uuid('email').notNull(),
 });
 
 export const battlesTable = pgTable('battles', {
-  id: uuid().primaryKey(),
-  created_at: timestamp(),
+  id: uuid().primaryKey().defaultRandom().notNull(),
+  created_at: date().notNull().defaultNow(),
   prelude: text('prelude').notNull(),
   name: text('name').notNull(),
   description: text('description').notNull(),
@@ -84,8 +85,8 @@ export const usersToBattlesRelations = relations(usersToBattles, ({ one }) => ({
 // });
 
 export const commandersTable = pgTable('commanders', {
-  id: uuid().primaryKey(),
-  created_at: timestamp(),
+  id: uuid().primaryKey().defaultRandom().notNull(),
+  created_at: date().notNull().defaultNow(),
   full_name: text('full_name').notNull(),
   title: text('title').notNull(),
   loyalty: text('loyalty').notNull(),
