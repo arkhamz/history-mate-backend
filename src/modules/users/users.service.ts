@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './user.dtos';
 import * as bcrypt from 'bcrypt';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { usersTable } from 'src/db/schema';
 
 @Injectable()
 export class UsersService {
@@ -12,14 +13,15 @@ export class UsersService {
     const { display_name, email, password } = createUserDto;
 
     //hash password
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 = salt rounds
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     //insert user
-
     const newUser = {
       display_name,
       email,
       password: hashedPassword,
     };
+
+    await this.db.insert(usersTable).values(newUser);
   }
 }
