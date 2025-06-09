@@ -13,16 +13,6 @@ import { CommandersModule } from './modules/commanders/commanders.module';
 import { ProgressModule } from './modules/progress/progress.module';
 import { DrizzleModule } from './modules/drizzle/drizzle.module';
 
-// @Module({
-//   imports: [],
-//   controllers: [
-//     BattlesController,
-//     CommandersController,
-//     ProgressController,
-//     UsersController,
-//   ],
-//   providers: [BattlesService, CommandersService, ProgressService, UsersService],
-// })
 @Module({
   imports: [
     BattlesModule,
