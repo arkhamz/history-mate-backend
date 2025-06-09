@@ -7,15 +7,29 @@ import { BattlesService } from './modules/battles/battles.service';
 import { CommandersService } from './modules/commanders/commanders.service';
 import { ProgressService } from './modules/progress/progress.service';
 import { UsersService } from './modules/users/users.service';
+import { BattlesModule } from './modules/battles/battles.module';
+import { UsersModule } from './modules/users/users.module';
+import { CommandersModule } from './modules/commanders/commanders.module';
+import { ProgressModule } from './modules/progress/progress.module';
+import { DrizzleModule } from './modules/drizzle/drizzle.module';
 
+// @Module({
+//   imports: [],
+//   controllers: [
+//     BattlesController,
+//     CommandersController,
+//     ProgressController,
+//     UsersController,
+//   ],
+//   providers: [BattlesService, CommandersService, ProgressService, UsersService],
+// })
 @Module({
-  imports: [],
-  controllers: [
-    BattlesController,
-    CommandersController,
-    ProgressController,
-    UsersController,
+  imports: [
+    BattlesModule,
+    UsersModule,
+    CommandersModule,
+    ProgressModule,
+    DrizzleModule,
   ],
-  providers: [BattlesService, CommandersService, ProgressService, UsersService],
 })
 export class AppModule {}

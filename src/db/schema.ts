@@ -17,7 +17,8 @@ export const usersTable = pgTable('users', {
   id: uuid().primaryKey().defaultRandom().notNull(),
   created_at: date().notNull().defaultNow(),
   display_name: text('display_name').notNull(),
-  email: uuid('email').notNull(),
+  email: text('email').notNull(),
+  password: text('password').notNull(),
 });
 
 export const battlesTable = pgTable('battles', {
