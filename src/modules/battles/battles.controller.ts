@@ -8,7 +8,7 @@ export class BattlesController {
   //implement a supabase auth middleware
 
   @Get()
-  getHello(): string {
+  findAll(): string {
     return this.battlesService.getHello();
   }
 }
