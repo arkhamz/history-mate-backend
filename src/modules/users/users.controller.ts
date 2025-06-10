@@ -1,10 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './user.dtos';
-import { usersTable } from 'src/db/schema';
-import { InferSelectModel } from 'drizzle-orm';
-
-type UserInferred = InferSelectModel<typeof usersTable>;
+import { UserInferred } from 'src/types';
 
 @Controller('users')
 export class UsersController {

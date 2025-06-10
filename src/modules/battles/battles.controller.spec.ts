@@ -14,9 +14,9 @@ describe('BattleController', () => {
     battleController = app.get<BattlesController>(BattlesController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(battleController.getHello()).toBe('Hello World!');
-    });
-  });
+  // describe('root', () => {
+  //   it('should return "Hello World!"', () => {
+  //     expect(battleController.getHello()).toBe('Hello World!');
+  //   });
+  // });
 });

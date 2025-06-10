@@ -14,9 +14,9 @@ describe('CommanderController', () => {
     commandersController = app.get<CommandersController>(CommandersController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(commandersController.getHello()).toBe('Hello World!');
-    });
-  });
+  // describe('root', () => {
+  //   it('should return "Hello World!"', () => {
+  //     expect(commandersController.getHello()).toBe('Hello World!');
+  //   });
+  // });
 });

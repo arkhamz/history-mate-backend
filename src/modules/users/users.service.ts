@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { usersTable, usersToBattlesTable } from 'src/db/schema';
 import { eq } from 'drizzle-orm';
-import { ClientUser } from './types';
+import { UserInferred } from 'src/types';
 
 @Injectable()
 export class UsersService {
@@ -51,14 +51,13 @@ export class UsersService {
     }
   }
 
-  async findUser(id: string): Promise<ClientUser | undefined> {
-    console.log(`${id}`);
+  async findUser(id: string): Promise<UserInferred | undefined> {
     try {
       const userResults = await this.db
         .select()
         .from(usersTable)
         .where(eq(usersTable.id, `${id}`));
-      const user: ClientUser = userResults?.[0];
+      const user: UserInferred = userResults?.[0];
 
       if (user) {
         console.log(user);

@@ -3,8 +3,15 @@ import { BattlesModule } from './modules/battles/battles.module';
 import { UsersModule } from './modules/users/users.module';
 import { CommandersModule } from './modules/commanders/commanders.module';
 import { DrizzleModule } from './modules/drizzle/drizzle.module';
+import { UserToBattlesModule } from './modules/userToBattles/userToBattles.module';
 
 @Module({
-  imports: [BattlesModule, UsersModule, CommandersModule, DrizzleModule],
+  imports: [
+    BattlesModule,
+    UsersModule,
+    CommandersModule,
+    DrizzleModule,
+    UserToBattlesModule,
+  ],
 })
 export class AppModule {}

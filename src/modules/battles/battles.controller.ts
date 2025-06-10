@@ -1,14 +1,27 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { BattlesService } from './battles.service';
 
 @Controller('battles')
 export class BattlesController {
   constructor(private readonly battlesService: BattlesService) {}
 
-  //implement a supabase auth middleware
+  //implement an  auth middleware
 
   @Get()
-  findAll(): string {
-    return this.battlesService.getHello();
+  async findAll() {
+    const allBattles = await this.battlesService.getAllBattles();
+    return allBattles;
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    const battle = await this.battlesService.getBattle(id);
+    return battle;
+  }
+
+  @Get('/user/:id')
+  async findAllByUser(@Param('id') id: string) {
+    const battle = await this.battlesService.getUserBattles(id);
+    return battle;
   }
 }
