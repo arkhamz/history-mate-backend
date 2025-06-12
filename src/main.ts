@@ -8,6 +8,7 @@ async function bootstrap() {
   //bind ValidationPipe at the application level to protect all endpoints
   //from receiving incorrect data
   app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();

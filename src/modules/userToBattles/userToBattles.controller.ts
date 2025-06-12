@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { UserToBattlesService } from './userToBattles.service';
 import { CreateUserToBattlesDto } from './userToBattles.dtos';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('user-to-battles')
 export class UserToBattlesController {

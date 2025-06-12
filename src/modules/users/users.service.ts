@@ -4,12 +4,12 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { CreateUserDto } from './user.dtos';
 import * as bcrypt from 'bcrypt';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { usersTable, usersToBattlesTable } from 'src/db/schema';
 import { eq } from 'drizzle-orm';
 import { UserInferred } from 'src/types';
+import { CreateUserDto } from './dtos/create-user-dto';
 
 @Injectable()
 export class UsersService {
@@ -19,13 +19,13 @@ export class UsersService {
 
   async createUser(createUserDto: CreateUserDto) {
     try {
-      const { display_name, email, password } = createUserDto;
+      const { username, email, password } = createUserDto;
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await this.db
         .insert(usersTable)
-        .values({ display_name, email, password: hashedPassword })
+        .values({ username, email, password: hashedPassword })
         .returning({ insertedId: usersTable.id });
 
       const insertedId = newUser?.[0]?.insertedId;
@@ -51,16 +51,15 @@ export class UsersService {
     }
   }
 
-  async findUser(id: string): Promise<UserInferred | undefined> {
+  async findUser(username: string): Promise<UserInferred | undefined> {
     try {
       const userResults = await this.db
         .select()
         .from(usersTable)
-        .where(eq(usersTable.id, `${id}`));
+        .where(eq(usersTable.username, username));
       const user: UserInferred = userResults?.[0];
 
       if (user) {
-        console.log(user);
         return user;
       }
     } catch (error) {

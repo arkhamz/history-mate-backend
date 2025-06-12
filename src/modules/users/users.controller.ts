@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './user.dtos';
 import { UserInferred } from 'src/types';
+import { CreateUserDto } from './dtos/create-user-dto';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -18,9 +19,11 @@ export class UsersController {
     return insertedUserId;
   }
 
-  @Get(':id')
-  async findUser(@Param('id') id: string): Promise<UserInferred | undefined> {
-    const user = await this.usersService.findUser(id);
+  @Get(':username')
+  async findUser(
+    @Param('username') username: string,
+  ): Promise<UserInferred | undefined> {
+    const user = await this.usersService.findUser(username);
     return user;
   }
 }
