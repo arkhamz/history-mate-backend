@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -7,6 +8,7 @@ import { UsersService } from 'src/modules/users/users.service';
 import { AuthInput, AuthResult, SignInData } from './authTypes';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { RegisterRequestDto } from './dtos/registerRequestDto';
 
 @Injectable()
 export class AuthService {
@@ -33,10 +35,9 @@ export class AuthService {
     const user = await this.usersService.findUser(input.username);
 
     if (!user) {
-      if (!user) {
-        throw new InternalServerErrorException();
-      }
+      throw new InternalServerErrorException();
     }
+
     //bcrypt to compare password
     const passwordIsValid = await compare(input.password, user.password);
 
@@ -60,5 +61,21 @@ export class AuthService {
     //generate signed jwt access token
     const accessToken = await this.jwtService.signAsync(accessTokenPayload);
     return { accessToken, username: user.username, userId: user.userId };
+  }
+
+  async register(user: RegisterRequestDto): Promise<AuthResult> {
+    const existingUser = await this.usersService.findUser(user.username);
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
+    }
+    const createdUser = await this.usersService.createUser({
+      username: user.username,
+      password: user.password,
+    });
+    const accessToken = await this.generateJwt({
+      userId: createdUser.id,
+      username: createdUser.username,
+    });
+    return accessToken;
   }
 }

@@ -8,16 +8,16 @@ import { AuthGuard } from '../auth/guards/auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<string> {
-    const insertedUserId = await this.usersService.createUser(createUserDto);
-    if (insertedUserId) {
-      console.log(
-        `Successfully created new user. Inserted id = ${insertedUserId}`,
-      );
-    }
-    return insertedUserId;
-  }
+  // @Post()
+  // async create(@Body() createUserDto: CreateUserDto): Promise<string> {
+  //   const insertedUserId = await this.usersService.createUser(createUserDto);
+  //   if (insertedUserId) {
+  //     console.log(
+  //       `Successfully created new user. Inserted id = ${insertedUserId}`,
+  //     );
+  //   }
+  //   return insertedUserId;
+  // }
 
   @Get(':username')
   async findUser(

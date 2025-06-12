@@ -16,7 +16,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() input: AuthInput) {
-    //authenticate
+    //authenticate - validateUserPassword and generates jwt access token
     return await this.authService.authenticate(input);
   }
 }

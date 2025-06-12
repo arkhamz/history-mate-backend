@@ -1,4 +1,3 @@
-//Drizzle global module that provides postgres db
 import { Global, Module } from '@nestjs/common';
 import { db } from '../../db/index';
 

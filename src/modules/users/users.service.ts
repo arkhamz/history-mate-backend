@@ -17,15 +17,17 @@ export class UsersService {
   //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(
+    createUserDto: CreateUserDto,
+  ): Promise<{ username: string; password: string; id: string }> {
     try {
-      const { username, email, password } = createUserDto;
+      const { username, password } = createUserDto;
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await this.db
         .insert(usersTable)
-        .values({ username, email, password: hashedPassword })
+        .values({ username, password: hashedPassword })
         .returning({ insertedId: usersTable.id });
 
       const insertedId = newUser?.[0]?.insertedId;
@@ -40,7 +42,7 @@ export class UsersService {
         .insert(usersToBattlesTable)
         .values({ battle_id: 1, user_id: insertedId, unlocked: true });
 
-      return insertedId;
+      return { username: username, password: hashedPassword, id: insertedId };
     } catch (error: any) {
       if (error?.query?.code === '23505') {
         throw new ConflictException('Email already exists');
