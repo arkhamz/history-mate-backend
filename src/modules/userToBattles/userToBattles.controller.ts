@@ -1,6 +1,9 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
 import { UserToBattlesService } from './userToBattles.service';
-import { CreateUserToBattlesDto } from './userToBattles.dtos';
+import {
+  CreateUserToBattlesDto,
+  UpdateUserToBattlesDto,
+} from './userToBattles.dtos';
 import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('user-to-battles')
@@ -17,6 +20,17 @@ export class UserToBattlesController {
     const insertedUserId =
       await this.userToBattlesService.createUserToBattlesRecord(
         createUserToBattlesDto,
+      );
+    return insertedUserId;
+  }
+
+  @Put()
+  async update(
+    @Body() updateUserToBattlesDto: UpdateUserToBattlesDto,
+  ): Promise<string> {
+    const insertedUserId =
+      await this.userToBattlesService.updateUserToBattlesRecord(
+        updateUserToBattlesDto,
       );
     return insertedUserId;
   }

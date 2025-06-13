@@ -55,6 +55,7 @@ export const usersToBattlesTable = pgTable(
       .references(() => battlesTable.id),
     progress: integer(),
     unlocked: boolean().default(false),
+    completed: boolean().default(false),
   },
   //Composite Primary Key: the primary key is on both user_id and battle_id together, ensuring:
   // No duplicate pairs (a user cannot be linked to the same battle multiple times).

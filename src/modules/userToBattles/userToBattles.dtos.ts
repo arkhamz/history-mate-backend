@@ -10,3 +10,14 @@ export class CreateUserToBattlesDto {
   @IsBoolean()
   unlocked: boolean;
 }
+
+export class UpdateUserToBattlesDto {
+  @IsString()
+  user_id: string;
+
+  @IsNumber()
+  battle_id: number;
+
+  @IsBoolean()
+  completed: boolean;
+}
