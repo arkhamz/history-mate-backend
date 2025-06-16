@@ -3,7 +3,7 @@ import { BattlesModule } from './modules/battles/battles.module';
 import { UsersModule } from './modules/users/users.module';
 import { CommandersModule } from './modules/commanders/commanders.module';
 import { DrizzleModule } from './modules/drizzle/drizzle.module';
-import { UserToBattlesModule } from './modules/userToBattles/userToBattles.module';
+import { UserBattlesModule } from './modules/userBattles/userBattles.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
@@ -12,7 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
     UsersModule,
     CommandersModule,
     DrizzleModule,
-    UserToBattlesModule,
+    UserBattlesModule,
     AuthModule,
   ],
 })

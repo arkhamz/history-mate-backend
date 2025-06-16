@@ -1,6 +1,6 @@
 import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
-export class CreateUserToBattlesDto {
+export class CreateUserBattlesDto {
   @IsString()
   user_id: string;
 
@@ -11,7 +11,7 @@ export class CreateUserToBattlesDto {
   unlocked: boolean;
 }
 
-export class UpdateUserToBattlesDto {
+export class UpdateUserBattlesDto {
   @IsString()
   user_id: string;
 

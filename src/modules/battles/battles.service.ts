@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { battlesTable, usersToBattlesTable } from 'src/db/schema';
+import { battlesTable, userBattlesTable } from 'src/db/schema';
 import { BattleInferred, userBattlesJoin } from 'src/types';
 
 @Injectable()
@@ -56,12 +56,12 @@ export class BattlesService {
     try {
       const userBattlesJoinResult: userBattlesJoin[] = await this.db
         .select()
-        .from(usersToBattlesTable)
+        .from(userBattlesTable)
         .innerJoin(
           battlesTable,
-          eq(usersToBattlesTable.battle_id, battlesTable.id),
+          eq(userBattlesTable.battle_id, battlesTable.id),
         )
-        .where(eq(usersToBattlesTable.user_id, id));
+        .where(eq(userBattlesTable.user_id, id));
       if (!userBattlesJoinResult) {
         console.log('getUserBattles | Error selecting user battles');
         throw new InternalServerErrorException('Failed to select user battles');

@@ -37,15 +37,13 @@ export const battlesTable = pgTable('battles', {
   end_date: date(),
 });
 
-//JUNCTION/JOIN TABLE - used to handle many-to-many relationships between 2 other tables
-//it breaks the many to many relationship into two one-to-many relationships
-//each row in the junction table links one user to one battle
-// a user can be connected to many battles via usersToBattles junction table,
-//and a battle connected to many users via usersToBattles
+//JUNCTION/JOIN TABLE
+// a user is connected to many battles via this table ,
+//and a battle is connected to many users via this table
 
 //*Define the foreign key constraints at the database level
-export const usersToBattlesTable = pgTable(
-  'users_to_battles',
+export const userBattlesTable = pgTable(
+  'user_battles',
   {
     user_id: uuid('user_id')
       .notNull()
@@ -57,45 +55,33 @@ export const usersToBattlesTable = pgTable(
     unlocked: boolean().default(false),
     completed: boolean().default(false),
   },
-  //Composite Primary Key: the primary key is on both user_id and battle_id together, ensuring:
-  // No duplicate pairs (a user cannot be linked to the same battle multiple times).
-  //Efficient lookups by either or both columns.
   (t) => [primaryKey({ columns: [t.user_id, t.battle_id] })],
 );
 
-//!relations() defines logical relationship, not column names
-
-// Define users table relation
-//associated with usersToBattles table and this is a many association
+//a user can have many battles
 export const usersRelations = relations(usersTable, ({ many }) => ({
-  usersToBattles: many(usersToBattlesTable),
+  user_battles: many(userBattlesTable),
 }));
 
-//define battle relation
-//is associated with usersToBattles, many association
-//is associated with questions table, many association
-
+//a battle can have many users and many questions
 export const battlesRelations = relations(battlesTable, ({ many }) => ({
-  usersToBattles: many(usersToBattlesTable),
+  user_battles: many(userBattlesTable),
   questions: many(questionsTable),
 }));
 
-//defines that usersToBattlesRelations table is associated with user and battle in a one /singular relationship
-//Each row in users_to_battles belongs to one user, and one battle
-//* define the relationship logic at the DRIZZLE ORM logic
-export const usersToBattlesRelations = relations(
-  usersToBattlesTable,
-  ({ one }) => ({
-    user: one(usersTable, {
-      fields: [usersToBattlesTable.user_id],
-      references: [usersTable.id],
-    }),
-    battle: one(battlesTable, {
-      fields: [usersToBattlesTable.battle_id],
-      references: [battlesTable.id],
-    }),
+/* define  relationship logic at  DRIZZLE ORM level
+//defines that user_battlesRelations table row is associated with 1 user and 1 battle 
+*/
+export const userBattlesRelations = relations(userBattlesTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userBattlesTable.user_id],
+    references: [usersTable.id],
   }),
-);
+  battle: one(battlesTable, {
+    fields: [userBattlesTable.battle_id],
+    references: [battlesTable.id],
+  }),
+}));
 
 export const commandersTable = pgTable('commanders', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

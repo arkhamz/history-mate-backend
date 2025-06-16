@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { usersTable, usersToBattlesTable } from 'src/db/schema';
+import { usersTable, userBattlesTable } from 'src/db/schema';
 import { eq } from 'drizzle-orm';
 import { UserInferred } from 'src/types';
 import { CreateUserDto } from './dtos/create-user-dto';
@@ -39,7 +39,7 @@ export class UsersService {
 
       //create join table record
       await this.db
-        .insert(usersToBattlesTable)
+        .insert(userBattlesTable)
         .values({ battle_id: 1, user_id: insertedId, unlocked: true });
 
       return { username: username, password: hashedPassword, id: insertedId };
