@@ -20,10 +20,4 @@ export class BattlesController {
     const battle = await this.battlesService.getBattle(id);
     return battle;
   }
-
-  @Get('/user/:id')
-  async findAllByUser(@Param('id') id: string) {
-    const battle = await this.battlesService.getUserBattles(id);
-    return battle;
-  }
 }

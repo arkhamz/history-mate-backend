@@ -8,7 +8,7 @@ export class CreateUserBattlesDto {
   battle_id: number;
 
   @IsBoolean()
-  unlocked: boolean;
+  unlocked?: boolean;
 }
 
 export class UpdateUserBattlesDto {

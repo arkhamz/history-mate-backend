@@ -5,10 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from 'src/modules/users/users.service';
-import { AuthInput, AuthResult, SignInData } from './authTypes';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterRequestDto } from './dtos/registerRequestDto';
+import { AuthInput, AuthResult, SignInData } from 'src/types';
 
 @Injectable()
 export class AuthService {
@@ -76,6 +76,7 @@ export class AuthService {
       userId: createdUser.id,
       username: createdUser.username,
     });
+    //
     return accessToken;
   }
 }

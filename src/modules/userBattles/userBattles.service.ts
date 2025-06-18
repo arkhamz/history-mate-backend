@@ -4,8 +4,15 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { userBattlesTable } from 'src/db/schema';
+import { battlesTable, userBattlesTable } from 'src/db/schema';
 import { CreateUserBattlesDto, UpdateUserBattlesDto } from './userBattles.dtos';
+import {
+  BattleInferred,
+  EnrichedBattle,
+  userBattlesCountData,
+  userBattlesJoin,
+} from 'src/types';
+import { and, count, eq } from 'drizzle-orm';
 
 @Injectable()
 export class UserBattlesService {
@@ -17,7 +24,12 @@ export class UserBattlesService {
     try {
       const { battle_id, user_id } = createUserBattlesDto;
 
-      console.log(battle_id, user_id);
+      const userBattlesCount = await this.getUserBattlesCount(user_id);
+      if (userBattlesCount?.battles?.find((i) => i.battle_id == 12)) {
+        throw new InternalServerErrorException(
+          'createUserBattlesRecord | All battles are already unlocked',
+        );
+      }
       const newRecord = await this.db
         .insert(userBattlesTable)
         .values({ battle_id: +battle_id, user_id, unlocked: true })
@@ -39,24 +51,90 @@ export class UserBattlesService {
 
   async updateUserBattlesRecord(updateUserBattlesDto: UpdateUserBattlesDto) {
     try {
-      const { battle_id, user_id } = updateUserBattlesDto;
+      const { completed, battle_id, user_id } = updateUserBattlesDto;
 
-      console.log(battle_id, user_id);
       const newRecord = await this.db
-        .insert(userBattlesTable)
-        .values({ battle_id: +battle_id, user_id, completed: true })
+        .update(userBattlesTable)
+        .set({ completed: true })
+        .where(
+          and(
+            eq(userBattlesTable.user_id, user_id),
+            eq(userBattlesTable.battle_id, battle_id),
+          ),
+        )
         .returning({ insertedId: userBattlesTable.user_id });
 
       const insertedId = newRecord?.[0]?.insertedId;
       return insertedId;
     } catch (error) {
-      // Unexpected error
       console.error(
         'updateUserBattlesRecord | Unexpected error:',
         error?.cause,
       );
       throw new InternalServerErrorException(
         'Unexpected error updating user battle progress record',
+      );
+    }
+  }
+
+  async getUserBattles(id: string): Promise<EnrichedBattle[]> {
+    try {
+      const userBattlesJoinResult: userBattlesJoin[] = await this.db
+        .select()
+        .from(userBattlesTable)
+        .innerJoin(
+          battlesTable,
+          eq(userBattlesTable.battle_id, battlesTable.id),
+        )
+        .where(eq(userBattlesTable.user_id, id));
+
+      if (!userBattlesJoinResult || !userBattlesJoinResult?.length) {
+        console.log('getUserBattles | Error selecting user battles');
+        throw new InternalServerErrorException('Failed to select user battles');
+      }
+
+      const battles = userBattlesJoinResult.map(
+        (i) =>
+          ({
+            ...i.battles,
+            completed: i.user_battles.completed,
+          }) as EnrichedBattle,
+      );
+
+      return battles;
+    } catch (error) {
+      // Unexpected error
+      console.error('getUserBattles | Unexpected error:', error?.cause);
+      throw new InternalServerErrorException(
+        'Unexpected error selecting user battles',
+      );
+    }
+  }
+
+  async getUserBattlesCount(id: string): Promise<any> {
+    try {
+      const result = await this.db
+        .select({
+          battle_id: userBattlesTable.battle_id,
+          completed: userBattlesTable.completed,
+        })
+        .from(userBattlesTable)
+        .where(eq(userBattlesTable.user_id, id));
+
+      if (!result?.length) {
+        console.log('getUserBattlesCount | Error fetching user battles count');
+        throw new InternalServerErrorException(
+          'Failed to fetch user battle count',
+        );
+      }
+
+      const payload = { count: result?.length, battles: result };
+      return payload;
+    } catch (error) {
+      // Unexpected error
+      console.error('getUserBattlesCount | Unexpected error:', error?.cause);
+      throw new InternalServerErrorException(
+        'Unexpected error selecting user battles',
       );
     }
   }

@@ -14,13 +14,9 @@ export class CommandersService {
   //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
-  async getAllCommanders(): Promise<CommanderInferred[] | undefined> {
+  async getAllCommanders(): Promise<CommanderInferred[]> {
     try {
       const commanders = await this.db.select().from(commandersTable);
-      if (!commanders?.length) {
-        console.log('getAllCommanders | Error selecting commanders');
-        throw new InternalServerErrorException('Failed to create user');
-      }
       return commanders;
     } catch (error) {
       // Unexpected error
@@ -38,10 +34,6 @@ export class CommandersService {
         .from(commandersTable)
         .where(eq(commandersTable.id, id));
       const commander = commanderResults?.[0];
-      if (!commander) {
-        console.log('getCommander | Error selecting commander');
-        throw new InternalServerErrorException('Failed to select commander');
-      }
       return commander;
     } catch (error) {
       console.error('getCommander | Unexpected error:', error?.cause);

@@ -7,7 +7,7 @@ export class CommandersController {
   constructor(private readonly commandersService: CommandersService) {}
 
   @Get()
-  async findAll(): Promise<CommanderInferred[] | undefined> {
+  async findAll(): Promise<CommanderInferred[]> {
     return await this.commandersService.getAllCommanders();
   }
 

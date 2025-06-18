@@ -5,12 +5,11 @@ import {
 } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { battlesTable, userBattlesTable } from 'src/db/schema';
-import { BattleInferred, userBattlesJoin } from 'src/types';
+import { battlesTable } from 'src/db/schema';
+import { BattleInferred } from 'src/types';
 
 @Injectable()
 export class BattlesService {
-  //we use @inject to inject custom postgres  db provider and we register it with the token 'DRIZZLE'
   //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
@@ -48,30 +47,6 @@ export class BattlesService {
       console.error('getBattle | Unexpected error:', error?.cause);
       throw new InternalServerErrorException(
         'Unexpected error selecting battle',
-      );
-    }
-  }
-
-  async getUserBattles(id: string): Promise<userBattlesJoin[]> {
-    try {
-      const userBattlesJoinResult: userBattlesJoin[] = await this.db
-        .select()
-        .from(userBattlesTable)
-        .innerJoin(
-          battlesTable,
-          eq(userBattlesTable.battle_id, battlesTable.id),
-        )
-        .where(eq(userBattlesTable.user_id, id));
-      if (!userBattlesJoinResult) {
-        console.log('getUserBattles | Error selecting user battles');
-        throw new InternalServerErrorException('Failed to select user battles');
-      }
-      return userBattlesJoinResult;
-    } catch (error) {
-      // Unexpected error
-      console.error('getUserBattles | Unexpected error:', error?.cause);
-      throw new InternalServerErrorException(
-        'Unexpected error selecting user battles',
       );
     }
   }

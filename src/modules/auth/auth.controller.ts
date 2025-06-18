@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthInput } from './authTypes';
+import { AuthInput } from 'src/types';
 
 @Controller('auth-old')
 export class AuthController {
