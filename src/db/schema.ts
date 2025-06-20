@@ -106,18 +106,21 @@ export const questionsTable = pgTable('questions', {
   created_at: date().notNull().defaultNow(),
 });
 
-export const questionsRelations = relations(questionsTable, ({ one }) => ({
-  battle: one(battlesTable, {
-    fields: [questionsTable.battle_id],
-    references: [battlesTable.id],
+export const questionsRelations = relations(
+  questionsTable,
+  ({ one, many }) => ({
+    battle: one(battlesTable, {
+      fields: [questionsTable.battle_id],
+      references: [battlesTable.id],
+    }),
+    question_answers: many(questionAnswersTable),
   }),
-}));
+);
 
 export const questionAnswersTable = pgTable('question_answers', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   created_at: date().notNull().defaultNow(),
-  answer_text: text('answer_text'),
-  title: text('title').notNull(),
+  answer_text: text('answer_text').notNull(),
   question_id: integer()
     .notNull()
     .references(() => questionsTable.id),

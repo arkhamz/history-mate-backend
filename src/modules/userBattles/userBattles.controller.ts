@@ -21,7 +21,7 @@ export class UserBattlesController {
   @Post()
   async create(
     @Body() createUserBattlesDto: CreateUserBattlesDto,
-  ): Promise<string> {
+  ): Promise<{ insertedId: string }> {
     const insertedUserId =
       await this.userBattlesService.createUserBattlesRecord(
         createUserBattlesDto,
@@ -34,7 +34,7 @@ export class UserBattlesController {
   @Patch()
   async update(
     @Body() updateUserBattlesDto: UpdateUserBattlesDto,
-  ): Promise<string> {
+  ): Promise<{ insertedId: string }> {
     const insertedUserId =
       await this.userBattlesService.updateUserBattlesRecord(
         updateUserBattlesDto,

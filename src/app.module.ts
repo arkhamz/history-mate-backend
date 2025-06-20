@@ -5,6 +5,7 @@ import { CommandersModule } from './modules/commanders/commanders.module';
 import { DrizzleModule } from './modules/drizzle/drizzle.module';
 import { UserBattlesModule } from './modules/userBattles/userBattles.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { QuestionAnswersModule } from './modules/questionAnswers/questionAnswers.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from './modules/auth/auth.module';
     DrizzleModule,
     UserBattlesModule,
     AuthModule,
+    QuestionAnswersModule,
   ],
 })
 export class AppModule {}

@@ -32,11 +32,11 @@ export class UserBattlesService {
       }
       const newRecord = await this.db
         .insert(userBattlesTable)
-        .values({ battle_id: +battle_id, user_id, unlocked: true })
+        .values({ battle_id: +battle_id + 1, user_id, unlocked: true })
         .returning({ insertedId: userBattlesTable.user_id });
 
       const insertedId = newRecord?.[0]?.insertedId;
-      return insertedId;
+      return { insertedId };
     } catch (error) {
       // Unexpected error
       console.error(
@@ -53,7 +53,7 @@ export class UserBattlesService {
     try {
       const { completed, battle_id, user_id } = updateUserBattlesDto;
 
-      const newRecord = await this.db
+      const updatedRecord = await this.db
         .update(userBattlesTable)
         .set({ completed: true })
         .where(
@@ -64,8 +64,8 @@ export class UserBattlesService {
         )
         .returning({ insertedId: userBattlesTable.user_id });
 
-      const insertedId = newRecord?.[0]?.insertedId;
-      return insertedId;
+      const insertedId = updatedRecord?.[0]?.insertedId;
+      return { insertedId: insertedId };
     } catch (error) {
       console.error(
         'updateUserBattlesRecord | Unexpected error:',

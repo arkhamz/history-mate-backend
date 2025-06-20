@@ -4,11 +4,15 @@ import {
   battlesTable,
   commandersTable,
   userBattlesTable,
+  questionsTable,
+  questionAnswersTable,
 } from 'src/db/schema';
 
 export type UserInferred = InferSelectModel<typeof usersTable>;
 export type BattleInferred = InferSelectModel<typeof battlesTable>;
 export type CommanderInferred = InferSelectModel<typeof commandersTable>;
+export type QuestionInferred = InferSelectModel<typeof questionsTable>;
+export type QuestionAnswer = InferSelectModel<typeof questionAnswersTable>;
 
 export interface EnrichedBattle extends InferSelectModel<typeof battlesTable> {
   completed: boolean;
