@@ -6,7 +6,10 @@ import { UsersController } from './users.controller';
   imports: [],
   controllers: [UsersController],
   providers: [UsersService],
-  //export usersService so that authModule can use it
+
+  //users service is provided in usersmodule, so it's only accessible within that module unless exported
+  //To make usersservice available to the authmodule which needs it, we must export usersService via exportsArray
+  //and import users module there so that the auth module can use the usersService
   exports: [UsersService],
 })
 export class UsersModule {}
