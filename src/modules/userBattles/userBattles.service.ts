@@ -138,4 +138,45 @@ export class UserBattlesService {
       );
     }
   }
+
+  async getUserBattle(
+    userId: string,
+    battleId: number,
+  ): Promise<EnrichedBattle> {
+    try {
+      const userBattleJoinResult: userBattlesJoin[] = await this.db
+        .select()
+        .from(userBattlesTable)
+        .innerJoin(
+          battlesTable,
+          eq(userBattlesTable.battle_id, battlesTable.id),
+        )
+        .where(
+          and(
+            eq(userBattlesTable.user_id, userId),
+            eq(userBattlesTable.battle_id, battleId),
+          ),
+        );
+
+      if (!userBattleJoinResult || !userBattleJoinResult?.length) {
+        console.log('getUserBattle | Error selecting user battles');
+        throw new InternalServerErrorException('Failed to select user battles');
+      }
+
+      const battles = userBattleJoinResult.map(
+        (i) =>
+          ({
+            ...i.battles,
+            completed: i.user_battles.completed,
+          }) as EnrichedBattle,
+      );
+      return battles[0];
+    } catch (error) {
+      // Unexpected error
+      console.error('getUserBattle | Unexpected error:', error?.cause);
+      throw new InternalServerErrorException(
+        'Unexpected error selecting user battles',
+      );
+    }
+  }
 }

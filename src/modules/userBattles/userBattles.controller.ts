@@ -42,13 +42,6 @@ export class UserBattlesController {
     return insertedUserId;
   }
 
-  // Get all user battles by id
-  @UseGuards(PassportJwtAuthGuard)
-  @Get(':id')
-  async findAll(@Param('id') id: string) {
-    const battle = await this.userBattlesService.getUserBattles(id);
-    return battle;
-  }
   //Get user battles count
   @UseGuards(PassportJwtAuthGuard)
   @Get('count/:id')
@@ -56,5 +49,27 @@ export class UserBattlesController {
     const userBattleCount =
       await this.userBattlesService.getUserBattlesCount(id);
     return userBattleCount;
+  }
+
+  // Get single user battle
+  @UseGuards(PassportJwtAuthGuard)
+  @Get(':userId/:battleId')
+  async findOne(
+    @Param('userId') userId: string,
+    @Param('battleId') battleId: string,
+  ) {
+    const battle = await this.userBattlesService.getUserBattle(
+      userId,
+      +battleId,
+    );
+    return battle;
+  }
+
+  // Get all user battles by id
+  @UseGuards(PassportJwtAuthGuard)
+  @Get(':userId')
+  async findAll(@Param('userId') userId: string) {
+    const battle = await this.userBattlesService.getUserBattles(userId);
+    return battle;
   }
 }
