@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { UserBattlesService } from './userBattles.service';
@@ -44,32 +45,35 @@ export class UserBattlesController {
 
   //Get user battles count
   @UseGuards(PassportJwtAuthGuard)
-  @Get('count/:id')
-  async findAndCount(@Param('id') id: string) {
-    const userBattleCount =
-      await this.userBattlesService.getUserBattlesCount(id);
+  //user-battles/count
+  @Get('count')
+  async findAndCount(@Request() request) {
+    const userBattleCount = await this.userBattlesService.getUserBattlesCount(
+      request.user.userId,
+    );
     return userBattleCount;
   }
 
   // Get single user battle
   @UseGuards(PassportJwtAuthGuard)
-  @Get(':userId/:battleId')
-  async findOne(
-    @Param('userId') userId: string,
-    @Param('battleId') battleId: string,
-  ) {
+  //user-battles/1
+  @Get(':battleId')
+  async findOne(@Request() request, @Param('battleId') battleId: string) {
     const battle = await this.userBattlesService.getUserBattle(
-      userId,
+      request.user.userId,
       +battleId,
     );
     return battle;
   }
 
-  // Get all user battles by id
+  // Get all user battles
   @UseGuards(PassportJwtAuthGuard)
-  @Get(':userId')
-  async findAll(@Param('userId') userId: string) {
-    const battle = await this.userBattlesService.getUserBattles(userId);
+  @Get()
+  //user-battles
+  async findAll(@Request() request) {
+    const battle = await this.userBattlesService.getUserBattles(
+      request.user.userId,
+    );
     return battle;
   }
 }

@@ -35,6 +35,7 @@ export const battlesTable = pgTable('battles', {
   result: text('result').notNull(),
   start_date: date(),
   end_date: date(),
+  location: text().notNull(),
 });
 
 //JUNCTION/JOIN TABLE

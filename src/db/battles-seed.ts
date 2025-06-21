@@ -14,6 +14,7 @@ const main = async () => {
   const data: (typeof battlesTable.$inferInsert)[] = [
     {
       name: 'White Mountain',
+      location: 'Prague, Bohemia',
       prelude:
         'The naming of fiercely devout Roman catholic Ferdinand II as Holy Roman Emperor and king of Bohemia (czechia), led to the mostly protestant Bohemian population fearing the loss of religious freedom, rights and autonomy. In response to perceived violations of royal assurances of religious freedom, a group of Bohemian noblemen met with representatives of the emperor at the royal Prague castle. The meeting ended with the Royal representatives being thrown out of a window and seriously injured upon landing on a large pile of manure, sparking the Bohemian revolt. Emperor Ferdinand II set out to conquer Bohemia and quash the rebellion, with an army under Field Marshal Johan Tserclaes, the count of Tilly.',
       description:
@@ -54,6 +55,7 @@ const main = async () => {
     },
     {
       name: 'Lutter',
+      location: 'Lutter am Barenberge, Germany',
       prelude:
         'Christian IV of Denmark, ruler of the Duchy of Holstein ( a part of the holy roman empire) and member of the protestant Lower Saxon circle, remained neutral during the early stages of the war, following the Bohemian revolt. He and the other members increasingly feared that Holy Roman Emperor Ferdinand intended to retake former catholic lands in North-West Germany, now held by fellow protestants. This fear was confirmed when Catholic league forces led by the Count of Tilly, and an Imperial army under Albrecht von Wallenstein, attacked Magdeburg. Christian was appointed commander of the saxon forces, with Ernst von Mansfeld and Christian of Brunswick as fellow commanders.',
       description:
@@ -89,6 +91,7 @@ const main = async () => {
     },
     {
       name: 'Siege of Stralsund',
+      location: 'Stralsund, Germany',
       prelude:
         "The defeat of Ernst von Mansfeld and Christian IV of Denmark by Albrecht von Wallenstein and Tilly, respectively, led to Christian's expulsion from North Germany. This left the Duchy of Pomerania, which included the city of Stralsund, vulnerable. Stralsund declared neutrality but was to be occupied by Imperial forces led by Albrecht von Wallenstein. Stralsund refused to submit and was besieged by Wallenstein's forces. It sought military aid from Denmark, and then from Sweden",
       description:
@@ -129,6 +132,7 @@ const main = async () => {
     },
     {
       name: 'Breitenfeld',
+      location: 'Breitenfeld, Germany',
       prelude:
         "Protestant Sweden's entrance into the war in 1630, led by king Gustavus Adolphus, was considered a minor annoyance to the Catholic league and its allies. German protestant princes also showed little interest in joining the Swedish cause. The sacking and massacre of the Swedish-allied city of Magdeburg by Imperial troops proved to be a valuable recruiting tool for the Swedes, attracting French, Prussian and German princly support for the swedish cause. In order for the Swedes to attack imperial troops in the south, they needed to pass through saxony. In order for Imperial forces to attack the swedes, they too had to pass through saxony.",
       description:
@@ -172,6 +176,7 @@ const main = async () => {
     },
     {
       name: 'Lutzen',
+      location: 'Lutzen, Germany',
       prelude:
         "Gustavus Adolphus's victories at Breitenfeld in 1631, and Rain in 1632, drew him deep into Southern Germany where a Swedish attack on the imperial camp outside the city of Furth was bloodily repulsed by Albrecht von Wallenstein's imperial army. The Swedes later made contact with Wallenstein's troops at Halle, then at a stream 5-6 kilometres south of the city of Lutzen. Wallenstein requested reinforcements while the Swedes camped 2 kilometres outside the town. Imperial troops worked through the night building defensive positions.",
       description:
@@ -213,6 +218,7 @@ const main = async () => {
     },
     {
       name: 'Rocroi',
+      location: 'Rocroi, France',
       prelude:
         'A string of recent protestant defeats led France to intervene on the side of the protestants and declare war on the Habsburgs (Holy Roman Empire), and Spanish empire on 19th May 1635, to limit Habsburg power. This was despite France being a Catholic power which suppressed its own Protestant rebellions. An initial invasion of the Spanish netherlands ended in failure, with the French retreating to their borders. The peace of Prague in 1935 also saw most of the rebellious German protestant states exit the war. A further French defeat at the Battle of Honnecourt in 1642 opened the way to Paris, Spanish troops under Francisco de melo laid siege to the fortified French of Rocroi. 21 year old Louis de Bourbon, Prince of Condé, was appointed to stop him',
       description:
@@ -248,9 +254,10 @@ const main = async () => {
       }),
     },
     {
+      name: 'Freiburg',
+      location: 'Freiburg, Germany',
       prelude:
         "After Breitenfeld, the French suffered a considerable defeat in 1643, at the battle of Tuttlingen against Bavarian, imperial and Spanish troops led by Franz von mercy and Johanne Von Werth.The French army was ambushed and destroyed, with casualties of 11,000 men killed or wounded. The French were forced to recall Field Marshal Viscomte (viscount) De Turenne to handle the war in Germany. The Duke of Bavaria decided to capitalise on the weakened French situation by sending Von Mercy and his troops towards Turenne, near Freiburg. Von Mercy's larger and organised force forced the French Garrison to hand over the city. Louis de Condé was dispatched with an army to protect and/or retake the city",
-      name: 'Freiburg',
       description:
         "The 3rd of August saw an attempted two-pronged French attack, with Turenne attempting a flanking attack an Louis Condé attempting a frontal atack. The French suffered heavy casualties and both attacks were halted due to rain, nightfall and Bavarian resistance. The 5th of August saw the French lose approximately half their army due to repeated waves of uncoordinated attacks, capitalised on by Von Mercy's forces. The 9th of August saw the French try to cut off Bavarian supplies, however they were outmaneuvered by Von mercy who had already secretly relocated his main army to secure supplies and ammunition. The Bavarians were able to perform a successful fighting retreat to Villingen, without losing many casualties.",
       image_url:
@@ -283,6 +290,7 @@ const main = async () => {
     },
     {
       name: 'Jankau',
+      location: 'Jankau, Bohemia',
       prelude:
         "With the 1635 Treaty of Prague, most of Sweden's protestant German allies made peace. The war lost much of its religious aspect, and turned into a contest between the Holy Roman Empire, and the Swedish Empire supported by France and others. The Danes also re-enetered the war as an imperial ally. THe swedes, led by Lennart Torstensson began plans for an offensive wich would force Ferdinand III, Holy Roman Emperor, to agree to peace terms. While France attacked Bavaria, Torstensson would move into Bohemia then strike at the Imperial capital at Vienna.",
       description:
@@ -317,6 +325,7 @@ const main = async () => {
     },
     {
       name: 'Nordlingen',
+      location: 'Alerheim, Germany',
       prelude:
         " Upon reaching Kassel on July 1st, and managing to immediately insult his allied German commander Johann von Geyso, Louis II prince of Condé and the allied army moved to interrupt the Bavarians led by Von Mercy, who were besieging the strategically significant Hessian stronghold of Kirchheim to block off the french army in the area. The french approach forced them to break the siege, both armies then raced towards Heilbronn, with Condé's force arriving first and taking WImpfen. Both armies continued to the east,with Condé taking another city. Condé then turned south to threaten Bavaria, attempting to besiege DInkelsbuhl. Constant Bavarian cavalry raids forced Condé to attempt a direct attack on Von Mercy's bavarian army, but as the area was nt suited for a battle, the French troops marched towards Nordlingen, shadowed by von Mercy ",
       description:
@@ -356,6 +365,7 @@ const main = async () => {
     },
     {
       name: 'Zusmarshausen',
+      location: 'Zusmarshausen, Germany',
       prelude:
         'By the late 1640s all the belligerents in the Thirty Years War were exhausted by three decades of brutal fighting. Delegates had convened in the Westphalian cities of Munster and Osnabruck to negotiate a peace treaty in 1646. While these peace talks were in progress, the opposing powers continued to jockey for position in order to improve their positions in the negotiations. Sweden was keen for a final decisive victory against the Habsburg monarchy in order to gain territory inside the Habsburg monarchy, and also to make the most of the war while it lasted by invading and plundering the rich Habsburg province of Bohemia, left relatively untouched by fighting so far',
       description:
@@ -398,6 +408,7 @@ const main = async () => {
     },
     {
       name: 'Lens',
+      location: 'Spanish Netherlands',
       prelude:
         "Over the four years following the decisive French victory at Rocroi against the Spanish Army of Flanders, the French captured dozens of towns throughout northern France and the Spanish Netherlands. Archduke Leopold Wilhelm was appointed governor of the Spanish Netherlands in 1647 to strengthen Spain's Habsburg alliance with Austria, and began a major counteroffensive the same year. The Spanish army first found success recapturing the fortresses of Armentières, Comines and Landrecies.\n The Prince de Condé was recalled from a failed campaign in Catalonia against the Spanish and appointed commander of the 16,000-man French army opposite the Spanish army of the Archduke and General Jean de Beck, the governor of Luxembourg. Condé captured Ypres but then the 18,000-strong Spanish-German force laid siege to Lens. Condé advanced to meet them.",
       description:
@@ -429,6 +440,7 @@ const main = async () => {
     },
     {
       name: 'Prague',
+      location: 'Prague, Bohemia',
       prelude:
         'While the negotiations for the Peace of Westphalia were proceeding, the Swedes took the opportunity to mount one last campaign into Bohemia. The main result, and probably the main aim, was to loot the fabulous art collection assembled in Prague Castle by Rudolf II, Holy Roman Emperor (1552-1612), the pick of which was to be taken down the Elbe in barges and shipped to Sweden.',
       description:

@@ -48,9 +48,7 @@ export class PassportAuthController {
   @Post('login')
   @UseGuards(PassportLocalGuard)
 
-  //In NestJS, @Res({ passthrough: true }) means:
-
-  //“Let me modify the response object manually (e.g. set a cookie), but still allow Nest to automatically send the final response for me.”
+  //@Res({ passthrough: true }) allows you to process the response object manually (e.g. set a cookie), but still allow Nest to automatically send the final response
   async login(@Request() request, @Res({ passthrough: true }) res: Response) {
     const authResult = await this.authService.generateJwt(request.user);
 

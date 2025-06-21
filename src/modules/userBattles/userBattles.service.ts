@@ -77,7 +77,7 @@ export class UserBattlesService {
     }
   }
 
-  async getUserBattles(id: string): Promise<EnrichedBattle[]> {
+  async getUserBattles(userId: string): Promise<EnrichedBattle[]> {
     try {
       const userBattlesJoinResult: userBattlesJoin[] = await this.db
         .select()
@@ -86,7 +86,7 @@ export class UserBattlesService {
           battlesTable,
           eq(userBattlesTable.battle_id, battlesTable.id),
         )
-        .where(eq(userBattlesTable.user_id, id));
+        .where(eq(userBattlesTable.user_id, userId));
 
       if (!userBattlesJoinResult || !userBattlesJoinResult?.length) {
         console.log('getUserBattles | Error selecting user battles');
@@ -111,7 +111,7 @@ export class UserBattlesService {
     }
   }
 
-  async getUserBattlesCount(id: string): Promise<any> {
+  async getUserBattlesCount(userId: string): Promise<any> {
     try {
       const result = await this.db
         .select({
@@ -119,7 +119,7 @@ export class UserBattlesService {
           completed: userBattlesTable.completed,
         })
         .from(userBattlesTable)
-        .where(eq(userBattlesTable.user_id, id));
+        .where(eq(userBattlesTable.user_id, userId));
 
       if (!result?.length) {
         console.log('getUserBattlesCount | Error fetching user battles count');
