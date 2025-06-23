@@ -32,8 +32,8 @@ export type AuthResult = {
 };
 
 export type userBattlesCountData = {
-  count: number;
-  battles: Array<{ battle_id: number; completed: boolean }>;
+  battle_id: number;
+  completed: boolean | null;
 };
 
 export interface AuthenticatedRequest extends Request {

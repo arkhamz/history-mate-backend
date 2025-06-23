@@ -71,7 +71,7 @@ export const battlesRelations = relations(battlesTable, ({ many }) => ({
   questions: many(questionsTable),
 }));
 
-/* define that a user_battles table row is associated with 1 user and 1 battle
+/* define that user_battles table row is associated with 1 user and 1 battle
  */
 export const userBattlesRelations = relations(userBattlesTable, ({ one }) => ({
   user: one(usersTable, {

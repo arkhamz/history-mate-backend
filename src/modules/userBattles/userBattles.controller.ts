@@ -21,10 +21,12 @@ export class UserBattlesController {
   @Post()
   async create(
     @Body() createUserBattlesDto: CreateUserBattlesDto,
+    @Request() request,
   ): Promise<{ insertedId: string }> {
     const insertedUserId =
       await this.userBattlesService.createUserBattlesRecord(
         createUserBattlesDto,
+        request.user.userId,
       );
     return insertedUserId;
   }
@@ -34,10 +36,12 @@ export class UserBattlesController {
   @Patch()
   async update(
     @Body() updateUserBattlesDto: UpdateUserBattlesDto,
+    @Request() request,
   ): Promise<{ insertedId: string }> {
     const insertedUserId =
       await this.userBattlesService.updateUserBattlesRecord(
         updateUserBattlesDto,
+        request.user.userId,
       );
     return insertedUserId;
   }

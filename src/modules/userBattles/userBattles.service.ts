@@ -6,7 +6,11 @@ import {
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { battlesTable, userBattlesTable } from 'src/db/schema';
 import { CreateUserBattlesDto, UpdateUserBattlesDto } from './userBattles.dtos';
-import { EnrichedBattle, userBattlesJoin } from 'src/types';
+import {
+  EnrichedBattle,
+  userBattlesCountData,
+  userBattlesJoin,
+} from 'src/types';
 import { and, eq } from 'drizzle-orm';
 
 @Injectable()
@@ -14,9 +18,12 @@ export class UserBattlesService {
   // inject custom postgres db provider into this service and register it under'DRIZZLE'
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
-  async createUserBattlesRecord(createUserBattlesDto: CreateUserBattlesDto) {
+  async createUserBattlesRecord(
+    createUserBattlesDto: CreateUserBattlesDto,
+    user_id: string,
+  ) {
     try {
-      const { battle_id, user_id } = createUserBattlesDto;
+      const { battle_id } = createUserBattlesDto;
 
       const userBattlesCount = await this.getUserBattlesCount(user_id);
       if (userBattlesCount?.battles?.find((i) => i.battle_id == 12)) {
@@ -42,10 +49,12 @@ export class UserBattlesService {
     }
   }
 
-  async updateUserBattlesRecord(updateUserBattlesDto: UpdateUserBattlesDto) {
+  async updateUserBattlesRecord(
+    updateUserBattlesDto: UpdateUserBattlesDto,
+    user_id: string,
+  ) {
     try {
-      const { completed, battle_id, user_id } = updateUserBattlesDto;
-
+      const { battle_id } = updateUserBattlesDto;
       const updatedRecord = await this.db
         .update(userBattlesTable)
         .set({ completed: true })
@@ -104,7 +113,9 @@ export class UserBattlesService {
     }
   }
 
-  async getUserBattlesCount(userId: string): Promise<any> {
+  async getUserBattlesCount(
+    userId: string,
+  ): Promise<{ count: number; battles: userBattlesCountData[] }> {
     try {
       const result = await this.db
         .select({
@@ -121,8 +132,7 @@ export class UserBattlesService {
         );
       }
 
-      const payload = { count: result?.length, battles: result };
-      return payload;
+      return { count: result.length || 0, battles: result };
     } catch (error) {
       // Unexpected error
       console.error('getUserBattlesCount | Unexpected error:', error?.cause);
