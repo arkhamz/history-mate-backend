@@ -6,18 +6,12 @@ import {
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { battlesTable, userBattlesTable } from 'src/db/schema';
 import { CreateUserBattlesDto, UpdateUserBattlesDto } from './userBattles.dtos';
-import {
-  BattleInferred,
-  EnrichedBattle,
-  userBattlesCountData,
-  userBattlesJoin,
-} from 'src/types';
-import { and, count, eq } from 'drizzle-orm';
+import { EnrichedBattle, userBattlesJoin } from 'src/types';
+import { and, eq } from 'drizzle-orm';
 
 @Injectable()
 export class UserBattlesService {
-  //we use @inject to inject custom postgres  db provider and we register it with the token 'DRIZZLE'
-  //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
+  // inject custom postgres db provider into this service and register it under'DRIZZLE'
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
   async createUserBattlesRecord(createUserBattlesDto: CreateUserBattlesDto) {
@@ -38,7 +32,6 @@ export class UserBattlesService {
       const insertedId = newRecord?.[0]?.insertedId;
       return { insertedId };
     } catch (error) {
-      // Unexpected error
       console.error(
         'createUserBattlesRecord | Unexpected error:',
         error?.cause,

@@ -1,10 +1,9 @@
-//create drizzle-postgres pool instance and export db
 import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from '../db/schema';
 
-config({ path: '.env' }); // or .env.local
+config({ path: '.env' });
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,

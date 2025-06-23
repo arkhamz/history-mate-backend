@@ -1,7 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { BattlesService } from './battles.service';
-import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../auth/guards/auth.guard';
 
 @Controller('battles')
 export class BattlesController {

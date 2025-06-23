@@ -13,8 +13,7 @@ import { CreateUserDto } from './dtos/create-user-dto';
 
 @Injectable()
 export class UsersService {
-  //we use @inject to inject custom postgres  db provider and we register it with the token 'DRIZZLE'
-  //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
+  //Inject NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class via this.db.
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
   async createUser(
@@ -65,7 +64,6 @@ export class UsersService {
         return user;
       }
     } catch (error) {
-      // Unexpected error
       console.error('findUser |  error:', error?.cause);
       throw new InternalServerErrorException('Unexpected error fetching user');
     }

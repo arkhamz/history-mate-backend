@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
-//this file is for bootstrapping the application and configuring global things like middleware, pipes, filters,
+//booststrap the application and configure global things like middleware, pipes, filters,
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());

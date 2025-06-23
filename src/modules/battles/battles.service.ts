@@ -10,7 +10,7 @@ import { BattleInferred } from 'src/types';
 
 @Injectable()
 export class BattlesService {
-  //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
+  //Inject NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class via this.db.
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
   async getAllBattles(): Promise<BattleInferred[] | undefined> {

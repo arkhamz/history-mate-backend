@@ -6,7 +6,6 @@ import {
 import { and, eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { questionsTable } from 'src/db/schema';
-
 import { questionAnswersTable } from 'src/db/schema';
 
 @Injectable()
@@ -61,28 +60,9 @@ export class QuestionAnswersService {
       }
       const arrayFromMap = Array.from(groupedMap.values());
       return arrayFromMap;
-
-      // const questions = questionsAnswersJoin.map((f) => f.questions);
-      // const uniqueQuestionIds = Array.from(
-      //   new Set(questionsAnswersJoin.map((f) => f.questions.id)),
-      // );
-      // console.log({ uniqueQuestionIds });
-      // //loop through unique questionIds
-      // //find question with that id
-      // //get all answers that have that question id
-      // const answers = questionsAnswersJoin.map((f) => f.question_answers);
-      // const final = uniqueQuestionIds
-      //   .map((quesId) => {
-      //     const question = questions.find((q) => q.id === quesId);
-      //     const qAnswers = answers.filter((f) => f.question_id === quesId);
-
-      //     return { question: question, answers: qAnswers };
-      //   })
-      //   .filter((f) => f);
-      // console.log(final);
     } catch (error) {
       // Unexpected error
-      console.error('getAllBattles | Unexpected error:', error?.cause);
+      console.error('getAllBattleQuestions | Unexpected error:', error?.cause);
       throw new InternalServerErrorException(
         'Unexpected error selecting battles',
       );

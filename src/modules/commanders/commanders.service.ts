@@ -10,8 +10,7 @@ import { CommanderInferred } from 'src/types';
 
 @Injectable()
 export class CommandersService {
-  //we use @inject to inject custom postgres  db provider and we register it with the token 'DRIZZLE'
-  //I.E. "Inject the NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class as this.db."
+  //Inject NodePgDatabase instance registered under the name 'DRIZZLE' and make it available inside this class via this.db.
   constructor(@Inject('DRIZZLE') private readonly db: NodePgDatabase) {}
 
   async getAllCommanders(): Promise<CommanderInferred[]> {

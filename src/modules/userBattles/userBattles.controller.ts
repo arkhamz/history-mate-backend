@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { UserBattlesService } from './userBattles.service';
 import { CreateUserBattlesDto, UpdateUserBattlesDto } from './userBattles.dtos';
-// import { AuthGuard } from '../auth/guards/auth.guard';
 import { PassportJwtAuthGuard } from '../auth/guards/passport-jwt.guard';
 
 @Controller('user-battles')

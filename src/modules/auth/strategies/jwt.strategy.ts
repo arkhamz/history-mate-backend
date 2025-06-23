@@ -3,22 +3,20 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-//validate jwt tokens
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(),
-        JwtStrategy.extractJWT,
+        JwtStrategy.extractJWTFromCookies,
       ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET,
     });
   }
 
-  private static extractJWT(req: Request): string | null {
+  private static extractJWTFromCookies(req: Request): string | null {
     if (req.cookies && req.cookies['accessToken']) {
       return req.cookies['accessToken'];
     }

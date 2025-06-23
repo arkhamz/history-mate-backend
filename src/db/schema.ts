@@ -39,10 +39,10 @@ export const battlesTable = pgTable('battles', {
 });
 
 //JUNCTION/JOIN TABLE
-// a user is connected to many battles via this table ,
-//and a battle is connected to many users via this table
+// a user is connected to many battles via userBattles table
+// a battle is connected to many users via userBattles
 
-//*Define the foreign key constraints at the database level
+//Define the junction table foreign key constraints at the database level
 export const userBattlesTable = pgTable(
   'user_battles',
   {
@@ -59,20 +59,20 @@ export const userBattlesTable = pgTable(
   (t) => [primaryKey({ columns: [t.user_id, t.battle_id] })],
 );
 
-//a user can have many battles
+//define relationship logic at DRIZZLE ORM level
+//a user can have many user_battles
 export const usersRelations = relations(usersTable, ({ many }) => ({
   user_battles: many(userBattlesTable),
 }));
 
-//a battle can have many users and many questions
+//a battle can have many user_battles and many questions
 export const battlesRelations = relations(battlesTable, ({ many }) => ({
   user_battles: many(userBattlesTable),
   questions: many(questionsTable),
 }));
 
-/* define  relationship logic at  DRIZZLE ORM level
-//defines that user_battlesRelations table row is associated with 1 user and 1 battle 
-*/
+/* define that a user_battles table row is associated with 1 user and 1 battle
+ */
 export const userBattlesRelations = relations(userBattlesTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [userBattlesTable.user_id],
