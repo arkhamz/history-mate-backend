@@ -56,7 +56,7 @@ export class PassportAuthController {
     res.cookie('accessToken', authResult.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // only over HTTPS in prod
-      sameSite: 'lax', // or 'strict' or 'none' (needs HTTPS if 'none')
+      sameSite: 'none', // or 'strict' or 'none' (needs HTTPS if 'none')
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
 
